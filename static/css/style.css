@@ -1,0 +1,104 @@
+header {
+    background-color: gray;
+}
+
+.header-items {
+    color: black
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  background-color: #f2f2f2;
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  position: relative;
+  margin: 0 10px;
+}
+
+nav a {
+  display: block;
+  padding: 10px;
+  color: #333;
+  text-decoration: none;
+}
+
+nav ul ul {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+}
+
+nav li:hover > ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+nav ul ul li {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: #f2f2f2;
+}
+
+nav ul ul li:hover {
+  background-color: #ddd;
+}
+
+nav li.right {
+  margin-left: auto;
+}
+
+nav li.profile ul {
+  min-width: 150px;
+  text-align: left;
+  background-color: #f2f2f2;
+  padding
+}
+
+.profile {
+  margin-left: auto;
+  padding-right: 20px
+}
+
+
+.header-sex {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer {
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  color: white;
+}
+
+.contact a {
+  color: white;
+  text-decoration: none;
+}
+
+.social a {
+  color: white;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.logo {
+    padding-left: 20px
+}
