@@ -47,7 +47,8 @@
     </ul>
   </nav>
   <nav class="profile">
-    <ul>
+    {% if current_user.is_authenticated %}
+        <ul>
       <li class="right"><a href="/favourite"><img src="static/img/favourite.png" alt="fav"></a></li>
       <li class="right"><a href="/basket"><img src="static/img/basket.png" alt="basket"></a></li>
       <li class="right profile"><a href="#">Профиль</a>
@@ -56,12 +57,22 @@
           <li><a href="/basket">Корзина</a></li>
           <li><a href="/favourite">Избранное</a></li>
           <li><a href="#">Настройки учетной записи</a></li>
-          <li><a href="#">Выход</a></li>
+          <li><a href="/logout">Выход</a></li>
         </ul>
       </li>
     </ul>
+    {% else %}
+        <p>
+            <a class="btn btn-primary " href="/register">Зарегистрироваться</a>
+            <a class="btn btn-success" href="/login">Войти</a>
+        </p>
+    {% endif %}
   </nav>
 </header>
+<!-- Begin page content -->
+<main role="main" class="container">
+    {% block content %}{% endblock %}
+</main>
 <footer>
   <div class="contact">
     <a href="https://vk.com/virus41l">Связь с разработчиком</a>
@@ -72,9 +83,5 @@
     <a href="#">Discord</a>
   </div>
 </footer>
-<!-- Begin page content -->
-<main role="main" class="container">
-    {% block content %}{% endblock %}
-</main>
 </body>
 </html>

@@ -102,3 +102,14 @@ footer {
 .logo {
     padding-left: 20px
 }
+
+.intro {
+    margin-left: -185px;
+}
+
+.intro_block {
+    backgroung-color: black;
+    width: 1200px;
+    overflow:hidden;
+    display:block;
+}
