@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user, login_user, login_required, 
 from flask_restful import Api
 from data import db_session
 from data.login_form import LoginForm
+from data.sneakers import Sneakers
 from data.users import User
 from forms.user import RegisterForm
 
@@ -18,15 +19,29 @@ def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
 
+
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Тест')
+    db_sess = db_session.create_session()
+    sneakers = db_sess.query(Sneakers).all()
+    return render_template('index.html', title='Тест', sneakers=sneakers)
 
 
 def main():
     db_session.global_init("db/store.db")
     app.run()
+    # user = Sneakers()
+    # user.name = "Air Jordan 1 Elevate Low"
+    # user.description = """Будьте стильными в любой ситуации. Эта обувь представляет собой новую версию легендарной
+    #                       модели с клиновидной подошвой и низким вырезом. Воздушная амортизация позволяет вам
+    #                       наслаждаться невероятным отскоком, а гладкая кожа контрастных цветов добавляет оригинальности."""
+    # user.picture = "img/sneakers/sneakers_3.jpg"
+    # user.sex = 'female'
+    # user.cost = 149.99
+    # db_sess = db_session.create_session()
+    # db_sess.add(user)
+    # db_sess.commit()
 
 
 @app.route('/register', methods=['GET', 'POST'])
