@@ -2,8 +2,11 @@ from flask import Flask, render_template, redirect
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 from flask_restful import Api
 from data import db_session
+from data.accessory import Accessory
+from data.clothes import Clothes
 from data.login_form import LoginForm
 from data.sneakers import Sneakers
+from data.sports import Sports
 from data.users import User
 from forms.user import RegisterForm
 
@@ -25,20 +28,33 @@ def load_user(user_id):
 def index():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).all()
-    return render_template('index.html', title='Тест', sneakers=sneakers)
+    clothes = db_sess.query(Clothes).all()
+    accessory = db_sess.query(Accessory).all()
+    sports = db_sess.query(Sports).all()
+    return render_template('index.html', title='Тест', sneakers=sneakers, clothes=clothes, accessory=accessory, sports=
+                           sports)
+
+@app.route('/shoes_page')
+def shoes_page():
+    db_sess = db_session.create_session()
+    sneakers = db_sess.query(Sneakers).all()
+    return render_template('test.html', title='Тест', sneakers=sneakers)
 
 
 def main():
     db_session.global_init("db/store.db")
     app.run()
-    # user = Sneakers()
-    # user.name = "Air Jordan 1 Elevate Low"
-    # user.description = """Будьте стильными в любой ситуации. Эта обувь представляет собой новую версию легендарной
-    #                       модели с клиновидной подошвой и низким вырезом. Воздушная амортизация позволяет вам
-    #                       наслаждаться невероятным отскоком, а гладкая кожа контрастных цветов добавляет оригинальности."""
-    # user.picture = "img/sneakers/sneakers_3.jpg"
-    # user.sex = 'female'
-    # user.cost = 149.99
+    # user = Sports()
+    # user.name = "Nike Kiger 9"
+    # user.description = """На каменистых и неровных дорожках выбирайте комфорт и скорость Kiger 9. Эта обувь
+    #                       предназначена для любых неожиданных и напряженных ситуаций. Благодаря полноразмерному
+    #                       пеноматериалу Nike React и новому воздухопроницаемому верху эти маневренные и быстрые
+    #                       кроссовки идеально подходят для быстрого перехода из города в тропу. Ближе к земле и легче,
+    #                       чем предыдущая версия, это идеальный союзник для катания по тропам в полной безопасности."""
+    # user.picture = "img/sports/sports_3.jpg"
+    # user.sex = 'male'
+    # user.cost = 159.99
+    # user.type = 'basketball'
     # db_sess = db_session.create_session()
     # db_sess.add(user)
     # db_sess.commit()
