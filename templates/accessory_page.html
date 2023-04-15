@@ -7,22 +7,23 @@
 
       <div class="filter-section">
         <h3>Сортировка по цене</h3>
-        <a class="nav-link px-2 link-body-emphasis" href="/shoes_min_to_max">От меньшей к большей</a>
-        <a class="nav-link px-2 link-body-emphasis" href="/shoes_max_to_min">От большей к меньшей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_min_to_max">От меньшей к большей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_max_to_min">От большей к меньшей</a>
       </div>
 
       <div class="filter-section">
         <h3>Тип</h3>
-        <a class="nav-link px-2 link-body-emphasis" href="/shoes_male">Мужское</a>
-        <a class="nav-link px-2 link-body-emphasis" href="/shoes_female">Женское</a>
-        <a class="nav-link px-2 link-body-emphasis" href="/shoes_kids">Для детей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_bag">Сумки</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_headdress">Головные уборы</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_ball">Мячи</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_bottle">Бутылки</a>
       </div>
 
     </div>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for item in sneakers %}
+            {% for item in accessory %}
             <div class="col">
               <div class="card shadow-sm">
               <img src="{{ url_for('static', filename=item.picture) }}">
