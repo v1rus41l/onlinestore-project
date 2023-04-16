@@ -13,6 +13,12 @@
   margin-bottom: 10px;
 }
 
+.card-text {
+    color: black;
+    text-decoration: none;
+    padding-bottom: 5px
+}
+
 h2 {
   margin-top: 0;
   margin-bottom: 20px;
@@ -51,7 +57,11 @@ h3 {
 }
 
 .name-tovar {
-    font-size: 1.1vw
+    color: black;
+    text-decoration: none;
+    font-size: 1.1vw;
+    position: relative;
+    bottom: 10px
 }
 
 .tovar-page-div {
@@ -64,43 +74,152 @@ h3 {
 
 .short-info {
     display: inline-block;
+    width: 300px;
+    height: 400px;
+    position: relative;
+    top: 7px
 }
 
 .name-of-tovar {
     color: black;
     text-decoration: none;
-    padding-left: 20px;
 }
 
 .cost-of-tovar {
-    padding-right: 80px;
-    font-size: 1.8vw;
+    font-size: 1.2vw;
     color: gray;
 }
 
-
-.floating-button {
-  text-decoration: none;
-  display: inline-block;
-  width: 140px;
-  height: 25px;
-  line-height: 45px;
-  border-radius: 45px;
-  margin: 10px 20px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 3px;
-  font-weight: 600;
-  color: #524f4e;
-  background: white;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
-  transition: .3s;
+.desc-of-tovar {
+    padding: 0;
+    font-size: 1vw
 }
-.floating-button:hover {
-  background: #2EE59D;
-  box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
-  color: white;
-  transform: translateY(-7px);
+
+.tovar_button {
+	box-sizing: border-box;
+	padding: 0 25px;
+	width: 220px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: #444;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+	position: relative;
+	left: 20px;
+	top: 150px;
+}
+.tovar_button:focus-visible {
+	border: 1px solid #4c51f9;
+	outline: none;
+}
+.tovar_button:hover {
+	transition: all 0.2s;
+	box-shadow: 0 7px 14px rgb(65 132 144 / 10%), 0 3px 6px rgb(0 0 0 / 8%);
+}
+.tovar_button:active {
+	background-color: #808080;
+}
+.tovar_button:disabled {
+	background-color: #eee;
+	border-color: #eee;
+	color: #444;
+	cursor: not-allowed;
+}
+
+.article-desc {
+    color:black;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 30px;
+    position: relative;
+    left: 50px;
+    top: 20px
+}
+
+.desc-of-tovar {
+    padding-bottom: 60px;
+    width: 700px;
+    position: relative;
+    left: 100px;
+    top: 25px;
+    font-size: 16px;
+    font-weight: 400
+}
+
+.buying {
+	box-sizing: border-box;
+	padding: 0 25px;
+	width: 220px;
+	margin: 0 15px 15px 0;
+	outline: none;
+	border: 1px solid #fff;
+	border-radius: 50px;
+	height: 46px;
+	line-height: 46px;
+	font-size: 14px;
+	font-weight: 600;
+	text-decoration: none;
+	color: #444;
+	box-shadow: 0 4px 6px rgb(65 132 144 / 10%), 0 1px 3px rgb(0 0 0 / 8%);
+	cursor: pointer;
+	user-select: none;
+	appearance: none;
+	touch-action: manipulation;
+	vertical-align: top;
+	transition: box-shadow 0.2s;
+	position: relative;
+	left: 20px;
+	top: 60px;
+}
+
+.buying:disabled {
+	background-color: #eee;
+	border-color: #eee;
+	color: #444;
+	cursor: not-allowed;
+}
+
+.abc {
+    color: red;
+    font-size: 10px;
+    position: relative;
+    left: 15px;
+    top: 45px
+}
+
+.basket-block {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid black
+}
+
+.basket-tovar-image {
+    display: inline-block
+}
+
+.mini-info {
+    display: inline-block
+}
+
+.basket-tovar-name {
+    color: black;
+    text-decoration: none;
+}
+
+.basket-tovar-cost {
+    color: gray;
+    text-decoration: none;
 }

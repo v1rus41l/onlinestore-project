@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for item in basket%}
+<div class="basket-block">
+    <div class="basket-tovars">
+        <div class="basket-tovar-image">
+            <img src="{{ url_for('static', filename=item.picture) }}" width="100px">
+        </div>
+        <div class="mini-info">
+            <a class="basket-tovar-name">{{ item.name }}</a><br>
+            <a class="basket-tovar-cost">${{ item.cost }}</a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

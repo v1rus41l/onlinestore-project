@@ -28,7 +28,7 @@
               <div class="card shadow-sm">
               <img src="{{ url_for('static', filename=item.picture) }}">
                 <div class="card-body">
-                  <a href="/shoes_tovar_{{ item.id }}"><p class="name-tovar">{{ item.name }}</p></a>
+                  <a class="name-tovar" href="/shoes_tovar_{{ item.id }}">{{ item.name }}</a>
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-body-secondary">${{ item.cost }} </small>
                   </div>

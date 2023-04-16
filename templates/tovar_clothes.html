@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tovar-page-div">
+    <div class="tovar-image">
+        <img src="{{ url_for('static', filename=tovar.picture) }}" width="400px">
+    </div>
+    <div class="short-info">
+        <a class="name-of-tovar">{{ tovar.name }}</a><br>
+        <a class="cost-of-tovar">${{ tovar.cost }}</a><br>
+        <button class="buying" disabled><span>Купить</span></button>
+        <div class="abc">Нет в наличии</div>
+        <a><button class="tovar_button">Добавить в Избранное</button></a><br>
+        <a href="basket_add_clothes_{{ tovar.id }}"><button class="tovar_button">Добавить в Корзину</button></a>
+    </div>
+
+</div>
+<div class="description-of-tovar-block">
+    <a class="article-desc">Описание:</a>
+    <div class="desc-of-tovar">
+        {{ tovar.description}}
+    </div>
+</div>
+
+{% endblock %}

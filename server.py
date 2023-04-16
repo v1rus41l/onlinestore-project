@@ -3,6 +3,7 @@ from flask_login import LoginManager, current_user, login_user, login_required, 
 from flask_restful import Api
 from data import db_session
 from data.accessory import Accessory
+from data.basket import Basket
 from data.clothes import Clothes
 from data.login_form import LoginForm
 from data.sneakers import Sneakers
@@ -347,17 +348,126 @@ def sports_golf():
 
 
 @app.route('/shoes_tovar_<int:id>', methods=['GET', 'POST'])
-@login_required
 def shoes_tovar(id):
     if request.method == "GET":
         db_sess = db_session.create_session()
         tovar = db_sess.query(Sneakers).filter(Sneakers.id == id
                                           ).first()
-    return render_template('tovar.html',
+    return render_template('tovar_shoes.html',
                            title='Редактирование работы',
                            tovar=tovar
                            )
 
+
+@app.route('/clothes_tovar_<int:id>', methods=['GET', 'POST'])
+def clothes_tovar(id):
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        tovar = db_sess.query(Clothes).filter(Clothes.id == id
+                                          ).first()
+    return render_template('tovar_clothes.html',
+                           title='Редактирование работы',
+                           tovar=tovar
+                           )
+
+
+@app.route('/accessory_tovar_<int:id>', methods=['GET', 'POST'])
+def accessory_tovar(id):
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        tovar = db_sess.query(Accessory).filter(Accessory.id == id
+                                          ).first()
+    return render_template('tovar_accessory.html',
+                           title='Редактирование работы',
+                           tovar=tovar
+                           )
+
+
+@app.route('/sport_tovar_<int:id>', methods=['GET', 'POST'])
+def sport_tovar(id):
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        tovar = db_sess.query(Sports).filter(Sports.id == id
+                                          ).first()
+    return render_template('tovar_sport.html',
+                           title='Редактирование работы',
+                           tovar=tovar
+                           )
+
+
+@app.route('/basket')
+def basket():
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        basket = db_sess.query(Basket).all()
+    return render_template('basket.html',
+                           title='Редактирование работы',
+                           basket=basket
+                           )
+
+
+@app.route('/basket_add_shoes_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_basket_shoes(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Sneakers).filter(Sneakers.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    basket = Basket()
+    basket.name = tovar.name
+    basket.cost = tovar.cost
+    basket.picture = tovar.picture
+    db_sess.add(basket)
+    db_sess.commit()
+    return redirect(f'/shoes_tovar_{tovar.id}')
+
+
+@app.route('/basket_add_clothes_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_basket_clothes(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Clothes).filter(Clothes.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    basket = Basket()
+    basket.name = tovar.name
+    basket.cost = tovar.cost
+    basket.picture = tovar.picture
+    db_sess.add(basket)
+    db_sess.commit()
+    return redirect(f'/clothes_tovar_{tovar.id}')
+
+
+@app.route('/basket_add_accessory_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_basket_accessory(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Accessory).filter(Accessory.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    basket = Basket()
+    basket.name = tovar.name
+    basket.cost = tovar.cost
+    basket.picture = tovar.picture
+    db_sess.add(basket)
+    db_sess.commit()
+    return redirect(f'/accessory_tovar_{tovar.id}')
+
+
+@app.route('/basket_add_sport_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_basket_sport(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Sports).filter(Sports.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    basket = Basket()
+    basket.name = tovar.name
+    basket.cost = tovar.cost
+    basket.picture = tovar.picture
+    db_sess.add(basket)
+    db_sess.commit()
+    return redirect(f'/sport_tovar_{tovar.id}')
 
 if __name__ == '__main__':
     main()

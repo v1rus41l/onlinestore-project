@@ -3,7 +3,22 @@
 {% block content %}
 <div class="tovar">
     <div class="filter-wrapper">
-        sne
+      <h2>Фильтр товаров</h2>
+
+      <div class="filter-section">
+        <h3>Сортировка по цене</h3>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_min_to_max">От меньшей к большей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_max_to_min">От большей к меньшей</a>
+      </div>
+
+      <div class="filter-section">
+        <h3>Тип</h3>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_bag">Сумки</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_headdress">Головные уборы</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_ball">Мячи</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/accessory_bottle">Бутылки</a>
+      </div>
+        <a href="/accessory_page"><button class="deny_filter">Сбросить фильтр</button></a>
     </div>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
@@ -13,7 +28,7 @@
               <div class="card shadow-sm">
               <img src="{{ url_for('static', filename=item.picture) }}">
                 <div class="card-body">
-                  <p class="name-tovar">{{ item.name }}</p>
+                  <a class="name-tovar" href="/accessory_tovar_{{ item.id }}">{{ item.name }}</a>
                   <div class="d-flex justify-content-between align-items-center">
                     <small class="text-body-secondary">${{ item.cost }} </small>
                   </div>
