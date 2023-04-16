@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, current_user, login_user, login_required, logout_user
 from flask_restful import Api
 from data import db_session
@@ -38,52 +38,68 @@ def index():
 def main():
     db_session.global_init("db/store.db")
     app.run()
-    # user = Clothes()
-    # user.name = "Nike Sportswear Phoenix Fleece"
-    # user.description = """Обновите свой флисовый гардероб этой ультра-комфортной моделью. Флисовая толстовка Phoenix с
-    #                       объемным кроем и рельефной резинкой выглядит просто и без излишеств."""
-    # user.picture = "img/clothes/clothes_4.jpg"
-    # user.sex = 'female'
-    # user.cost = 59.99
-    # user2 = Clothes()
-    # user2.name = "Nike Sportswear Tech Fleece Windrunner"
-    # user2.description = """Худи Nike Sportswear Tech Fleece изготовлена из двусторонней структурной трехмерной ткани,
-    #                        которая удерживает тепло вашего тела, не будучи слишком громоздкой и тяжелой."""
-    # user2.picture = "img/clothes/clothes_5.jpg"
-    # user2.sex = 'female'
-    # user2.cost = 129.99
-    # user3 = Clothes()
-    # user3.name = "Nike Miler"
-    # user3.description = """Базовая модель и икона бега — обновленная версия куртки Nike Miler. Эта водоотталкивающая
-    #                        модель имеет капюшон для защиты от непогоды. Складная модель демонстрирует стиль, пропитанный
-    #                        историей Nike. Этот продукт полностью изготовлен из переработанных полиэфирных волокон."""
-    # user3.picture = "img/clothes/clothes_6.jpg"
-    # user3.sex = 'male'
-    # user3.cost = 89.99
-    # user4 = Clothes()
-    # user4.name = "Nike Sportswear Club"
-    # user4.description = """Носите его отдельно или под другим слоем для тренировок в прохладную погоду. Худи Nike
-    #                        Sportswear из теплого флиса с начесом внутри для невероятной мягкости."""
-    # user4.picture = "img/clothes/clothes_7.jpg"
-    # user4.sex = 'kids'
-    # user4.cost = 49.99
-    # user5 = Clothes()
-    # user5.name = "Nike Sportswear Phoenix Fleece"
-    # user5.description = """Обновите свой флисовый гардероб этой ультра-комфортной моделью. Свободный ультрадлинный крой
-    #                     и разрезы по кромке этих брюк из ткани Fleece Phoenix позволяют продемонстрировать свою любимую
-    #                     обувь, а высокая талия в рубчик и большой шнурок придают эффектный вид."""
-    # user5.picture = "img/clothes/clothes_8.jpg"
-    # user5.sex = 'female'
-    # user5.cost = 64.99
-    # user6 = Clothes()
-    # user6.name = "Nike Sportswear"
-    # user6.description = """В этой толстовке большого размера достаточно места для рук и тела, что гарантирует вам
-    #                     расслабленный комфорт, где бы вы ни находились (например, в классе). Гладкая снаружи и
-    #                     начесанная внутри, эта легкая флисовая одежда легко надевается, когда вам нужно немного
-    #                     дополнительного тепла."""
-    # user6.picture = "img/clothes/clothes_9.jpg"
-    # user6.sex = 'kids'
-    # user6.cost = 54.99
+    # user = Sports()
+    # user.name = "Nike Pegasus Turbo Next"
+    # user.description = """Проглотите мили с легендарным крылатым ботинком. Благодаря обновленной пене, которая стала
+    #                       легче и более отзывчивой, а также легкому верху этот красочный дизайн поможет вам набрать
+    #                       темп, не жертвуя комфортом, когда вы пытаетесь побить свои личные рекорды. Эти вневременные
+    #                       кроссовки изготовлены с использованием экологически ответственного подхода, по крайней мере,
+    #                       50% его веса составляют переработанные материалы, но при этом они идеально подходят для
+    #                       повседневной жизни."""
+    # user.picture = "img/sports/sports_4.jpg"
+    # user.sex = 'tennis'
+    # user.cost = 179.99
+    # user2 = Sports()
+    # user2.name = "Nike Air Zoom Infinity Tour"
+    # user2.description = """Мечтаете о Грузии весной? Мы, да. Эта версия с мягкими персиковыми тонами и чистой базой
+    #                        приглашает вас насладиться теплым, обволакивающим бризом юга Соединенных Штатов. Два больших
+    #                        блока Zoom Air. Больше места для ног. Лучшее сцепление. Все это помогает вам выкладываться по
+    #                        максимуму на протяжении всей игры. Яркие детали и фруктовые акценты напоминают о том, что
+    #                        нужно сохранять хладнокровие, несмотря ни на что."""
+    # user2.picture = "img/sports/sports_5.jpg"
+    # user2.sex = 'golf'
+    # user2.cost = 249.99
+    # user3 = Sports()
+    # user3.name = "Nike Gripknit Phantom GX"
+    # user3.description = """Вы хотите улучшить свою игру? Разработанные для вас и для самых больших звезд мира, бутсы
+    #                        Elite предлагают беспрецедентное качество. Потому что мы знаем, что вы требуете совершенства
+    #                        как для себя, так и для своей обуви. В этих бутсах используется революционная технология Nike
+    #                        Gripknit, обеспечивающая лучшее сцепление с мячом. Их интуитивно понятный дизайн обеспечивает
+    #                        непревзойденную точность при бросках и дриблинге."""
+    # user3.picture = "img/sports/sports_6.jpg"
+    # user3.sex = 'football'
+    # user3.cost = 289.99
+    # user4 = Sports()
+    # user4.name = "Air Jordan XXXVII"
+    # user4.description = """У вас есть страсть к баскетболу и скорости? Наденьте эти кроссовки и раскройте весь свой
+    #                        потенциал на корте. Последний AJ был разработан для идеального взлета и посадки, с
+    #                        несколькими вставками Air для дополнительного отскока и нашей фирменной пеной Formula 23 для
+    #                        поглощения ударов. Верх выполнен из прочной ткани перевивочного переплетения. Вы получаете
+    #                        оптимальную поддержку без ущерба для качества игры."""
+    # user4.picture = "img/sports/sports_7.jpg"
+    # user4.sex = 'basketball'
+    # user4.cost = 199.99
+    # user5 = Sports()
+    # user5.name = "Nike Invincible 3"
+    # user5.description = """Предлагая максимальную амортизацию при каждом шаге, Invincible 3 гарантирует исключительный
+    #                        комфорт, чтобы оставаться на вершине в любых обстоятельствах. Этот упругий и поддерживающий
+    #                        дизайн, созданный для того, чтобы держать вас в тонусе, поможет вам пройти любимую трассу и
+    #                        перенесет вас на следующую пробежку с новыми силами."""
+    # user5.picture = "img/sports/sports_8.jpg"
+    # user5.sex = 'running'
+    # user5.cost = 209.99
+    # user6 = Sports()
+    # user6.name = "LeBron XX"
+    # user6.description = """После почти двадцати лет карьеры, которая превзошла все ожидания, Леброн Джеймс по-прежнему
+    #                        отказывается довольствоваться чем-либо, кроме совершенства, даже когда он устанавливает
+    #                        стандарты для будущих поколений. Сегодня его новейшие фирменные кроссовки LeBron XX
+    #                        (или LeBron 20) стали легче, ниже и невероятно быстры. Это не похоже ни на одну другую обувь,
+    #                        которую Леброн носил до сих пор. Обладая невероятным комфортом и поддержкой, он поставляется
+    #                        в сверхбыстром низком профиле, чтобы всегда быть на шаг впереди бешеной игры на паркетных
+    #                        полах."""
+    # user6.picture = "img/sports/sports_9.jpg"
+    # user6.sex = 'basketball'
+    # user6.cost = 249.99
     # db_sess = db_session.create_session()
     # db_sess.add(user)
     # db_sess.add(user2)
@@ -153,34 +169,34 @@ def shoes_page():
 def shoes_min_to_max():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).order_by(Sneakers.cost)
-    return render_template('clothes_min_to_max.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
 
 @app.route('/shoes_max_to_min')
 def shoes_max_to_min():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).order_by(Sneakers.cost)[::-1]
-    return render_template('clothes_max_to_min.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
 
 
 @app.route('/shoes_male')
 def shoes_male():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'male')
-    return render_template('shoes_male.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
 
 
 @app.route('/shoes_female')
 def shoes_female():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'female')
-    return render_template('shoes_female.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
 
 
 @app.route('/shoes_kids')
 def shoes_kids():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'kids')
-    return render_template('shoes_kids.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
 
 
 @app.route('/clothes_page')
@@ -195,34 +211,34 @@ def clothes_page():
 def clothes_min_to_max():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).order_by(Clothes.cost)
-    return render_template('clothes_min_to_max.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Тест', clothes=clothes)
 
 @app.route('/clothes_max_to_min')
 def clothes_max_to_min():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).order_by(Clothes.cost)[::-1]
-    return render_template('clothes_max_to_min.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Тест', clothes=clothes)
 
 
 @app.route('/clothes_male')
 def clothes_male():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'male')
-    return render_template('clothes_male.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Тест', clothes=clothes)
 
 
 @app.route('/clothes_female')
 def clothes_female():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'female')
-    return render_template('clothes_female.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Тест', clothes=clothes)
 
 
 @app.route('/clothes_kids')
 def clothes_kids():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'kids')
-    return render_template('clothes_kids.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Тест', clothes=clothes)
 
 
 @app.route('/accessory_page')
@@ -236,41 +252,111 @@ def accessory_page():
 @app.route('/accessory_max_to_min')
 def accessory_max_to_min():
     db_sess = db_session.create_session()
-    accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_max_to_min.html', title='Тест', accessory=accessory)
+    accessory = db_sess.query(Accessory).order_by(Accessory.cost)[::-1]
+    return render_template('accessory_page.html', title='Тест', accessory=accessory)
 
 
 @app.route('/accessory_min_to_max')
 def accessory_min_to_max():
     db_sess = db_session.create_session()
-    accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_min_to_max.html', title='Тест', accessory=accessory)
+    accessory = db_sess.query(Accessory).order_by(Accessory.cost)
+    return render_template('accessory_page.html', title='Тест', accessory=accessory)
 
 @app.route('/accessory_bottle')
 def accessory_bottle():
     db_sess = db_session.create_session()
-    accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_bottle.html', title='Тест', accessory=accessory)
+    accessory = db_sess.query(Accessory).filter(Accessory.type == 'bottle')
+    return render_template('accessory_page.html', title='Тест', accessory=accessory)
 
 @app.route('/accessory_ball')
 def accessory_ball():
     db_sess = db_session.create_session()
-    accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_ball.html', title='Тест', accessory=accessory)
+    accessory = db_sess.query(Accessory).filter(Accessory.type == 'ball')
+    return render_template('accessory_page.html', title='Тест', accessory=accessory)
 
 
 @app.route('/accessory_headdress')
 def accessory_headdress():
     db_sess = db_session.create_session()
-    accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_headdress.html', title='Тест', accessory=accessory)
+    accessory = db_sess.query(Accessory).filter(Accessory.type == 'headdress')
+    return render_template('accessory_page.html', title='Тест', accessory=accessory)
 
 
 @app.route('/accessory_bag')
 def accessory_bag():
     db_sess = db_session.create_session()
-    accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_bag.html', title='Тест', accessory=accessory)
+    accessory = db_sess.query(Accessory).filter(Accessory.type == 'bag')
+    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+
+
+@app.route('/sports_page')
+def sports_page():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).all()
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+#sports filter
+@app.route('/sports_min_to_max')
+def sports_min_to_max():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).order_by(Sports.cost)
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+@app.route('/sports_max_to_min')
+def sports_max_to_min():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).order_by(Sports.cost)[::-1]
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+@app.route('/sports_soccer')
+def sports_soccer():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).filter(Sports.type == 'football')
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+
+@app.route('/sports_running')
+def sports_running():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).filter(Sports.type == 'running')
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+@app.route('/sports_basketball')
+def sports_basketball():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).filter(Sports.type == 'basketball')
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+@app.route('/sports_tennis')
+def sports_tennis():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).filter(Sports.type == 'tennis')
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+@app.route('/sports_golf')
+def sports_golf():
+    db_sess = db_session.create_session()
+    sports = db_sess.query(Sports).filter(Sports.type == 'golf')
+    return render_template('sports_page.html', title='Тест', sports=sports)
+
+
+@app.route('/shoes_tovar_<int:id>', methods=['GET', 'POST'])
+@login_required
+def shoes_tovar(id):
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        tovar = db_sess.query(Sneakers).filter(Sneakers.id == id
+                                          ).first()
+    return render_template('tovar.html',
+                           title='Редактирование работы',
+                           tovar=tovar
+                           )
 
 
 if __name__ == '__main__':

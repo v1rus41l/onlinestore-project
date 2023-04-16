@@ -7,22 +7,24 @@
 
       <div class="filter-section">
         <h3>Сортировка по цене</h3>
-        <a class="nav-link px-2 link-body-emphasis" href="/clothes_min_to_max">От меньшей к большей</a>
-        <a class="nav-link px-2 link-body-emphasis" href="/clothes_max_to_min">От большей к меньшей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_min_to_max">От меньшей к большей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_max_to_min">От большей к меньшей</a>
       </div>
 
       <div class="filter-section">
         <h3>Тип</h3>
-        <a class="nav-link px-2 link-body-emphasis" href="/clothes_male">Мужское</a>
-        <a class="nav-link px-2 link-body-emphasis" href="/clothes_female">Женское</a>
-        <a class="nav-link px-2 link-body-emphasis" href="/clothes_kids">Для детей</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_soccer">Футбол</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_basketball">Баскетбол</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_running">Бег</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_tennis">Теннис</a>
+        <a class="nav-link px-2 link-body-emphasis" href="/sports_golf">Гольф</a>
       </div>
-
+    <a href="/sports_page"><button class="deny_filter">Сбросить фильтр</button></a>
     </div>
     <div class="album py-5 bg-body-tertiary">
         <div class="container">
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for item in clothes %}
+            {% for item in sports %}
             <div class="col">
               <div class="card shadow-sm">
               <img src="{{ url_for('static', filename=item.picture) }}">

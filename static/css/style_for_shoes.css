@@ -25,19 +25,19 @@ h3 {
   font-size: 16px;
 }
 
-button {
+.deny_filter {
   margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #4caf50;
+  background-color: rgb(255, 0, 0);
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #3e8e41;
+.deny_filter:hover {
+  background-color: rgb(200, 0, 0);
 }
 
 .tovar {
@@ -52,4 +52,55 @@ button:hover {
 
 .name-tovar {
     font-size: 1.1vw
+}
+
+.tovar-page-div {
+    text-align: center;
+}
+
+.tovar-image {
+    display: inline-block;
+}
+
+.short-info {
+    display: inline-block;
+}
+
+.name-of-tovar {
+    color: black;
+    text-decoration: none;
+    padding-left: 20px;
+}
+
+.cost-of-tovar {
+    padding-right: 80px;
+    font-size: 1.8vw;
+    color: gray;
+}
+
+
+.floating-button {
+  text-decoration: none;
+  display: inline-block;
+  width: 140px;
+  height: 25px;
+  line-height: 45px;
+  border-radius: 45px;
+  margin: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #524f4e;
+  background: white;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+  transition: .3s;
+}
+.floating-button:hover {
+  background: #2EE59D;
+  box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
+  color: white;
+  transform: translateY(-7px);
 }
