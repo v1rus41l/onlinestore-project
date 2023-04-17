@@ -10,8 +10,16 @@
         <a class="cost-of-tovar">${{ tovar.cost }}</a><br>
         <button class="buying" disabled><span>Купить</span></button>
         <div class="abc">Нет в наличии</div>
-        <a><button class="tovar_button">Добавить в Избранное</button></a><br>
-        <a href="basket_add_sport_{{ tovar.id }}"><button class="tovar_button">Добавить в Корзину</button></a>
+        {% if in_favourite %}
+            <a href="favourite_add_sport_{{ tovar.id }}"><button class="tovar_button" disabled>Добавить в Избранное</button></a><br>
+        {% else %}
+            <a href="favourite_add_sport_{{ tovar.id }}"><button class="tovar_button">Добавить в Избранное</button></a><br>
+        {% endif %}
+        {% if in_basket %}
+            <a href="basket_add_sport_{{ tovar.id }}"><button class="tovar_button" disabled>Добавить в Корзину</button></a>
+        {% else %}
+            <a href="basket_add_sport_{{ tovar.id }}"><button class="tovar_button">Добавить в Корзину</button></a>
+        {% endif %}
     </div>
 
 </div>

@@ -286,5 +286,14 @@ h3 {
     color: gray;
     font-size: 10px;
     position: relative;
-    left: 550px
+    left: 420px;
+    top: 52px
+}
+
+.remove-from-fav {
+    color: gray;
+    font-size: 12px;
+    position: relative;
+    top: 10px;
+    left: 280px
 }

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <div class="basket-block">
     {% if basket %}
         {% for item in basket%}
@@ -11,12 +10,12 @@
             </div>
             <div class="mini-info">
                 <a class="basket-tovar-name">{{ item.name }}</a><br>
-                <a class="basket-tovar-cost">${{ item.cost }}</a>
+                <a class="basket-tovar-cost">${{ item.cost }}</a><br>
+                <a href="basket_delete_item_{{ item.id }}" class="remove-from-basket">Удалить</a>
             </div><br>
-            <a href="basket_delete_item_{{ item.id }}" class="remove-from-basket">Удалить</a>
         </div>
         {% endfor %}
-        </div>
+</div>
         <div class="payment">
             <h4>Оплата</h4>
             <a class="total-cost-text">Общая сумма: —</a>
@@ -26,4 +25,5 @@
     {% else %}
         <div class="is-empty"><h1>Корзина пуста</h1></div>
     {% endif %}
+
 {% endblock %}

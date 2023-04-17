@@ -5,6 +5,7 @@ from data import db_session
 from data.accessory import Accessory
 from data.basket import Basket
 from data.clothes import Clothes
+from data.favourite import Favourite
 from data.login_form import LoginForm
 from data.sneakers import Sneakers
 from data.sports import Sports
@@ -353,9 +354,21 @@ def shoes_tovar(id):
         db_sess = db_session.create_session()
         tovar = db_sess.query(Sneakers).filter(Sneakers.id == id
                                           ).first()
+        favourite = db_sess.query(Favourite).filter(Favourite.name == tovar.name).all()
+        if favourite:
+            in_favourite = True
+        else:
+            in_favourite = False
+        basket = db_sess.query(Basket).filter(Basket.name == tovar.name).all()
+        if basket:
+            in_basket = True
+        else:
+            in_basket = False
     return render_template('tovar_shoes.html',
                            title=f'{tovar.name}',
-                           tovar=tovar
+                           tovar=tovar,
+                           in_favourite=in_favourite,
+                           in_basket=in_basket
                            )
 
 
@@ -365,9 +378,21 @@ def clothes_tovar(id):
         db_sess = db_session.create_session()
         tovar = db_sess.query(Clothes).filter(Clothes.id == id
                                           ).first()
+        favourite = db_sess.query(Favourite).filter(Favourite.name == tovar.name).all()
+        if favourite:
+            in_favourite = True
+        else:
+            in_favourite = False
+        basket = db_sess.query(Basket).filter(Basket.name == tovar.name).all()
+        if basket:
+            in_basket = True
+        else:
+            in_basket = False
     return render_template('tovar_clothes.html',
                            title=f'{tovar.name}',
-                           tovar=tovar
+                           tovar=tovar,
+                           in_favourite=in_favourite,
+                           in_basket=in_basket
                            )
 
 
@@ -377,9 +402,21 @@ def accessory_tovar(id):
         db_sess = db_session.create_session()
         tovar = db_sess.query(Accessory).filter(Accessory.id == id
                                           ).first()
+        favourite = db_sess.query(Favourite).filter(Favourite.name == tovar.name).all()
+        if favourite:
+            in_favourite = True
+        else:
+            in_favourite = False
+        basket = db_sess.query(Basket).filter(Basket.name == tovar.name).all()
+        if basket:
+            in_basket = True
+        else:
+            in_basket = False
     return render_template('tovar_accessory.html',
                            title=f'{tovar.name}',
-                           tovar=tovar
+                           tovar=tovar,
+                           in_favourite=in_favourite,
+                           in_basket=in_basket
                            )
 
 
@@ -389,9 +426,21 @@ def sport_tovar(id):
         db_sess = db_session.create_session()
         tovar = db_sess.query(Sports).filter(Sports.id == id
                                           ).first()
+        favourite = db_sess.query(Favourite).filter(Favourite.name == tovar.name).all()
+        if favourite:
+            in_favourite = True
+        else:
+            in_favourite = False
+        basket = db_sess.query(Basket).filter(Basket.name == tovar.name).all()
+        if basket:
+            in_basket = True
+        else:
+            in_basket = False
     return render_template('tovar_sport.html',
                            title=f'{tovar.name}',
-                           tovar=tovar
+                           tovar=tovar,
+                           in_favourite=in_favourite,
+                           in_basket=in_basket
                            )
 
 
@@ -483,6 +532,94 @@ def delete_basket_sport(id):
     db_sess.commit()
     return redirect('/basket')
 
+
+@app.route('/favourite')
+def favourite():
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        favourite = db_sess.query(Favourite).all()
+    return render_template('favourite.html',
+                           title='Избранное',
+                           favourite=favourite
+                           )
+
+
+@app.route('/favourite_add_shoes_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_favourite_shoes(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Sneakers).filter(Sneakers.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    favourite = Favourite()
+    favourite.name = tovar.name
+    favourite.cost = tovar.cost
+    favourite.picture = tovar.picture
+    favourite.type = 'shoes'
+    db_sess.add(favourite)
+    db_sess.commit()
+    return redirect(f'/shoes_tovar_{tovar.id}')
+
+
+@app.route('/favourite_add_clothes_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_favourite_clothes(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Clothes).filter(Clothes.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    favourite = Favourite()
+    favourite.name = tovar.name
+    favourite.cost = tovar.cost
+    favourite.picture = tovar.picture
+    favourite.type = 'clothes'
+    db_sess.add(favourite)
+    db_sess.commit()
+    return redirect(f'/clothes_tovar_{tovar.id}')
+
+
+@app.route('/favourite_add_accessory_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_favourite_accessory(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Accessory).filter(Accessory.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    favourite = Favourite()
+    favourite.name = tovar.name
+    favourite.cost = tovar.cost
+    favourite.picture = tovar.picture
+    favourite.type = 'accessory'
+    db_sess.add(favourite)
+    db_sess.commit()
+    return redirect(f'/accessory_tovar_{tovar.id}')
+
+
+@app.route('/favourite_add_sport_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def add_favourite_sport(id):
+    db_sess = db_session.create_session()
+    tovar = db_sess.query(Sports).filter(Sports.id == id
+                                         ).first()
+    db_sess = db_session.create_session()
+    favourite = Favourite()
+    favourite.name = tovar.name
+    favourite.cost = tovar.cost
+    favourite.picture = tovar.picture
+    favourite.type = 'sport'
+    db_sess.add(favourite)
+    db_sess.commit()
+    return redirect(f'/sport_tovar_{tovar.id}')
+
+
+@app.route('/fav_delete_item_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def delete_fav_sport(id):
+    db_sess = db_session.create_session()
+    favourite = db_sess.query(Favourite).filter(Favourite.id == id).first()
+    db_sess.delete(favourite)
+    db_sess.commit()
+    return redirect('/favourite')
 
 if __name__ == '__main__':
     main()

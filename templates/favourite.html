@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+      <div class="header-h1 header-h1-left">
+    </div>
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for item in favourite %}
+        <div class="col">
+          <div class="card shadow-sm">
+          <img src="{{ url_for('static', filename=item.picture) }}">
+            <div class="card-body">
+              <a href="/shoes_tovar_{{ item.id }}" class="card-text">{{ item.name }}</a>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-body-secondary">${{ item.cost }} </small>
+              </div>
+              <a href="fav_delete_item_{{ item.id }}" class="remove-from-fav">Удалить</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
