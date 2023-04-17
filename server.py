@@ -32,7 +32,7 @@ def index():
     clothes = db_sess.query(Clothes).all()[:3]
     accessory = db_sess.query(Accessory).all()[:3]
     sports = db_sess.query(Sports).all()[:3]
-    return render_template('index.html', title='Тест', sneakers=sneakers, clothes=clothes, accessory=accessory, sports=
+    return render_template('index.html', title='Главная страница', sneakers=sneakers, clothes=clothes, accessory=accessory, sports=
                            sports)
 
 
@@ -162,7 +162,7 @@ def logout():
 def shoes_page():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).all()
-    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
 # shoes_filter
@@ -170,41 +170,41 @@ def shoes_page():
 def shoes_min_to_max():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).order_by(Sneakers.cost)
-    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 @app.route('/shoes_max_to_min')
 def shoes_max_to_min():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).order_by(Sneakers.cost)[::-1]
-    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
 @app.route('/shoes_male')
 def shoes_male():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'male')
-    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
 @app.route('/shoes_female')
 def shoes_female():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'female')
-    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
 @app.route('/shoes_kids')
 def shoes_kids():
     db_sess = db_session.create_session()
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'kids')
-    return render_template('shoes_page.html', title='Тест', sneakers=sneakers)
+    return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
 @app.route('/clothes_page')
 def clothes_page():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).all()
-    return render_template('clothes_page.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
 # shoes_filter
@@ -212,41 +212,41 @@ def clothes_page():
 def clothes_min_to_max():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).order_by(Clothes.cost)
-    return render_template('clothes_page.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 @app.route('/clothes_max_to_min')
 def clothes_max_to_min():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).order_by(Clothes.cost)[::-1]
-    return render_template('clothes_page.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
 @app.route('/clothes_male')
 def clothes_male():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'male')
-    return render_template('clothes_page.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
 @app.route('/clothes_female')
 def clothes_female():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'female')
-    return render_template('clothes_page.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
 @app.route('/clothes_kids')
 def clothes_kids():
     db_sess = db_session.create_session()
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'kids')
-    return render_template('clothes_page.html', title='Тест', clothes=clothes)
+    return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
 @app.route('/accessory_page')
 def accessory_page():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).all()
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
 #accessory filters
@@ -254,47 +254,47 @@ def accessory_page():
 def accessory_max_to_min():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).order_by(Accessory.cost)[::-1]
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
 @app.route('/accessory_min_to_max')
 def accessory_min_to_max():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).order_by(Accessory.cost)
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 @app.route('/accessory_bottle')
 def accessory_bottle():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'bottle')
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 @app.route('/accessory_ball')
 def accessory_ball():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'ball')
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
 @app.route('/accessory_headdress')
 def accessory_headdress():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'headdress')
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
 @app.route('/accessory_bag')
 def accessory_bag():
     db_sess = db_session.create_session()
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'bag')
-    return render_template('accessory_page.html', title='Тест', accessory=accessory)
+    return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
 @app.route('/sports_page')
 def sports_page():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).all()
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 #sports filter
@@ -302,20 +302,20 @@ def sports_page():
 def sports_min_to_max():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).order_by(Sports.cost)
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 @app.route('/sports_max_to_min')
 def sports_max_to_min():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).order_by(Sports.cost)[::-1]
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 @app.route('/sports_soccer')
 def sports_soccer():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).filter(Sports.type == 'football')
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 
@@ -323,28 +323,28 @@ def sports_soccer():
 def sports_running():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).filter(Sports.type == 'running')
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 @app.route('/sports_basketball')
 def sports_basketball():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).filter(Sports.type == 'basketball')
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 @app.route('/sports_tennis')
 def sports_tennis():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).filter(Sports.type == 'tennis')
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 @app.route('/sports_golf')
 def sports_golf():
     db_sess = db_session.create_session()
     sports = db_sess.query(Sports).filter(Sports.type == 'golf')
-    return render_template('sports_page.html', title='Тест', sports=sports)
+    return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
 @app.route('/shoes_tovar_<int:id>', methods=['GET', 'POST'])
@@ -354,7 +354,7 @@ def shoes_tovar(id):
         tovar = db_sess.query(Sneakers).filter(Sneakers.id == id
                                           ).first()
     return render_template('tovar_shoes.html',
-                           title='Редактирование работы',
+                           title=f'{tovar.name}',
                            tovar=tovar
                            )
 
@@ -366,7 +366,7 @@ def clothes_tovar(id):
         tovar = db_sess.query(Clothes).filter(Clothes.id == id
                                           ).first()
     return render_template('tovar_clothes.html',
-                           title='Редактирование работы',
+                           title=f'{tovar.name}',
                            tovar=tovar
                            )
 
@@ -378,7 +378,7 @@ def accessory_tovar(id):
         tovar = db_sess.query(Accessory).filter(Accessory.id == id
                                           ).first()
     return render_template('tovar_accessory.html',
-                           title='Редактирование работы',
+                           title=f'{tovar.name}',
                            tovar=tovar
                            )
 
@@ -390,7 +390,7 @@ def sport_tovar(id):
         tovar = db_sess.query(Sports).filter(Sports.id == id
                                           ).first()
     return render_template('tovar_sport.html',
-                           title='Редактирование работы',
+                           title=f'{tovar.name}',
                            tovar=tovar
                            )
 
@@ -401,7 +401,7 @@ def basket():
         db_sess = db_session.create_session()
         basket = db_sess.query(Basket).all()
     return render_template('basket.html',
-                           title='Редактирование работы',
+                           title='Корзина',
                            basket=basket
                            )
 
@@ -417,6 +417,7 @@ def add_basket_shoes(id):
     basket.name = tovar.name
     basket.cost = tovar.cost
     basket.picture = tovar.picture
+    basket.type = 'shoes'
     db_sess.add(basket)
     db_sess.commit()
     return redirect(f'/shoes_tovar_{tovar.id}')
@@ -433,6 +434,7 @@ def add_basket_clothes(id):
     basket.name = tovar.name
     basket.cost = tovar.cost
     basket.picture = tovar.picture
+    basket.type = 'clothes'
     db_sess.add(basket)
     db_sess.commit()
     return redirect(f'/clothes_tovar_{tovar.id}')
@@ -449,6 +451,7 @@ def add_basket_accessory(id):
     basket.name = tovar.name
     basket.cost = tovar.cost
     basket.picture = tovar.picture
+    basket.type = 'accessory'
     db_sess.add(basket)
     db_sess.commit()
     return redirect(f'/accessory_tovar_{tovar.id}')
@@ -465,9 +468,21 @@ def add_basket_sport(id):
     basket.name = tovar.name
     basket.cost = tovar.cost
     basket.picture = tovar.picture
+    basket.type = 'sport'
     db_sess.add(basket)
     db_sess.commit()
     return redirect(f'/sport_tovar_{tovar.id}')
+
+
+@app.route('/basket_delete_item_<int:id>',  methods=['GET', 'POST'])
+@login_required
+def delete_basket_sport(id):
+    db_sess = db_session.create_session()
+    basket = db_sess.query(Basket).filter(Basket.id == id).first()
+    db_sess.delete(basket)
+    db_sess.commit()
+    return redirect('/basket')
+
 
 if __name__ == '__main__':
     main()

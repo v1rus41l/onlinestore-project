@@ -1,17 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for item in basket%}
+
 <div class="basket-block">
-    <div class="basket-tovars">
-        <div class="basket-tovar-image">
-            <img src="{{ url_for('static', filename=item.picture) }}" width="100px">
+    {% if basket %}
+        {% for item in basket%}
+        <div class="basket-tovars">
+            <div class="basket-tovar-image">
+                <img src="{{ url_for('static', filename=item.picture) }}" width="130px">
+            </div>
+            <div class="mini-info">
+                <a class="basket-tovar-name">{{ item.name }}</a><br>
+                <a class="basket-tovar-cost">${{ item.cost }}</a>
+            </div><br>
+            <a href="basket_delete_item_{{ item.id }}" class="remove-from-basket">Удалить</a>
         </div>
-        <div class="mini-info">
-            <a class="basket-tovar-name">{{ item.name }}</a><br>
-            <a class="basket-tovar-cost">${{ item.cost }}</a>
+        {% endfor %}
         </div>
-    </div>
-</div>
-{% endfor %}
+        <div class="payment">
+            <h4>Оплата</h4>
+            <a class="total-cost-text">Общая сумма: —</a>
+            <button class="basket-buying" disabled><span>Оплатить</span></button>
+            <a class="basket-warning">Данных товаров нет в наличии</a>
+        </div>
+    {% else %}
+        <div class="is-empty"><h1>Корзина пуста</h1></div>
+    {% endif %}
 {% endblock %}
