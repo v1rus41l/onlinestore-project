@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="album py-5 bg-body-tertiary">
-      <div class="header-h1 header-h1-left">
+    {% for item in user %}
+    <div class="user-info-block">
+        <div class="userava">
+            <img src="https://github.com/mdo.png" alt="mdo" width="100" height="100" class="rounded-circle">
+        </div>
+        <div class="user-info-text">
+            <a class="user-name-text">{{ item.name }} {{ item.surname }}</a><br>
+            <a>{{ item.email }}</a>
+        </div>
     </div>
+    <div class="favourite-in-profile">
+        <div class="album py-5 bg-body-tertiary">
+            <div class="six"><h1><span><a class="fav-in-profile-text" href="/favourite">ИЗБРАННОЕ</a></span></h1></div>
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         {% for item in favourite %}
@@ -15,7 +25,6 @@
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-body-secondary">${{ item.cost }} </small>
               </div>
-              <a href="fav_delete_item_{{ item.id }}" class="remove-from-fav">Удалить</a>
             </div>
           </div>
         </div>
@@ -27,4 +36,6 @@
       </div>
     </div>
   </div>
+    </div>
+    {% endfor %}
 {% endblock %}

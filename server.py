@@ -621,5 +621,39 @@ def delete_fav_sport(id):
     db_sess.commit()
     return redirect('/favourite')
 
+
+@app.route('/profile')
+def profile():
+    if request.method == "GET":
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.id == current_user.id)
+        favourite = db_sess.query(Favourite).all()[:3]
+    return render_template('profile.html',
+                           title='Профиль',
+                           user=user,
+                           favourite=favourite
+                           )
+
+@app.route('/settings')
+def settings():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if form.password.data != form.password_again.data:
+            return render_template('register.html', title='Регистрация',
+                                   form=form,
+                                   message="Пароли не совпадают")
+        db_sess = db_session.create_session()
+        user = User(
+            name=form.name.data,
+            surname=form.surname.data,
+        )
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+    return render_template('settings.html',
+                           title='Настройки профиля',
+                           form=form
+                           )
+
 if __name__ == '__main__':
     main()

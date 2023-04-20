@@ -282,6 +282,25 @@ h3 {
     top: 95px
 }
 
+.userava{
+    display: inline-block
+}
+
+.user-info-block {
+    padding-top: 150px
+}
+
+.user-info-text {
+    display: inline-block;
+    padding-left: 20px
+}
+
+.user-name-text {
+    font-size: 1.8vw;
+    text-decoration: none;
+    color: black;
+}
+
 .remove-from-basket {
     color: gray;
     font-size: 10px;
@@ -290,10 +309,19 @@ h3 {
     top: 52px
 }
 
+.favourite-in-profile {
+    padding-top: 100px
+}
+
+.fav-in-profile-text {
+    text-decoration: none;
+    color: black
+
+}
+
 .remove-from-fav {
     color: gray;
     font-size: 12px;
-    position: relative;
-    top: 10px;
-    left: 280px
-}
+    vertical-align: bottom;
+    text-align: right
+
