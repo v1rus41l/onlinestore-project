@@ -1,46 +1,66 @@
 {% extends "base.html" %}
 
-{% block content %}
-<form action="" method="post">
-{{ form.hidden_tag() }}
+{% block user_info %}
+    <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+    <a>{{ user.avatar }}</a>
+{% endblock %}
 
-<p>
-    {{ form.password.label }}<br>
-    {{ form.password(class="form-control", type="password") }}<br>
-    {% for error in form.password.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
+{% block content %}
+<div class="album py-5 bg-body-tertiary">
+    <div class="ava-settings">
+        <h1>Загрузим файл</h1>
+        <form method="post" enctype="multipart/form-data">
+            <label class="input-file">
+                <a><img src=""></a>
+                <input type="file" name="file">
+                <span class="input-file-btn">Выберите файл</span>
+            </label>
+        </form>
+    </div>
+    <div class="personal-info">
+        <h2>Личные данные</h2>
+        <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(class="form-control", type="password") }}<br>
+            {% for error in form.password.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
         </p>
-    {% endfor %}
-</p>
-<p>
-    {{ form.password_again.label }}<br>
-    {{ form.password_again(class="form-control", type="password") }}<br>
-    {% for error in form.password_again.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
+        <p>
+            {{ form.password_again.label }}<br>
+            {{ form.password_again(class="form-control", type="password") }}<br>
+            {% for error in form.password_again.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
         </p>
-    {% endfor %}
-</p>
-<p>
-    {{ form.name.label }}<br>
-    {{ form.name(class="form-control") }}<br>
-    {% for error in form.name.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+            {% for error in form.name.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
         </p>
-    {% endfor %}
-</p>
-    <p>
-    {{ form.surname.label }}<br>
-    {{ form.surname(class="form-control") }}<br>
-    {% for error in form.surname.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
+            <p>
+            {{ form.surname.label }}<br>
+            <input type="text"  name="user" value="Введите значение"><br>
+            {% for error in form.surname.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
         </p>
-    {% endfor %}
-</p>
-<p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-{{message}}
-</form>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        {{message}}
+        </form>
+    </div>
+</div>
 {% endblock %}

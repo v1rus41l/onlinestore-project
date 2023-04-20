@@ -33,8 +33,9 @@ def index():
     clothes = db_sess.query(Clothes).all()[:3]
     accessory = db_sess.query(Accessory).all()[:3]
     sports = db_sess.query(Sports).all()[:3]
+    user = db_sess.query(User).all()
     return render_template('index.html', title='Главная страница', sneakers=sneakers, clothes=clothes, accessory=accessory, sports=
-                           sports)
+                           sports, user=user)
 
 
 def main():
@@ -634,26 +635,40 @@ def profile():
                            favourite=favourite
                            )
 
-@app.route('/settings')
+@app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        if form.password.data != form.password_again.data:
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
-        db_sess = db_session.create_session()
-        user = User(
-            name=form.name.data,
-            surname=form.surname.data,
-        )
-        user.set_password(form.password.data)
-        db_sess.add(user)
-        db_sess.commit()
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).all()[0]
+    if request.method == 'GET':
+
+        form = RegisterForm()
+        if form.validate_on_submit():
+            db_sess = db_session.create_session()
+            user = User(
+                name=form.name.data,
+                surname=form.surname.data,
+            )
+            user.set_password(form.password.data)
+            db_sess.add(user)
+            db_sess.commit()
+    else:
+        photo = request.files['photo']
+        if photo and photo.filename[photo.filename.find('.') + 1:] in (
+                'png',
+                'jpg',
+                'jpeg'
+        ):
+            with open(f'static/img/user-photos/user_{user.id}.png', 'wb') as file:
+                file.write(photo.read())
+            return "<h1>Успех!</h1>"
+        else:
+            return "<h1>Не успех!</h1>"
+    print(user.avatar)
     return render_template('settings.html',
                            title='Настройки профиля',
-                           form=form
+                           form=form, user=user
                            )
+
 
 if __name__ == '__main__':
     main()
