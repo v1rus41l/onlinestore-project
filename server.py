@@ -818,7 +818,7 @@ def profile():
     if request.method == "GET":
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
-        favourite = db_sess.query(Favourite).filter(Favourite.by_who == current_user.id)[:3]
+        favourite = list(db_sess.query(Favourite).filter(Favourite.by_who == current_user.id))[-3:][::-1]
         date = user.created_date.strftime("%B %Y")
     return render_template('profile.html',
                            title='Профиль',
