@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
+{% block user_info %}
+    <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+{% endblock %}
+
 {% block content %}
-    {% for item in user %}
     <div class="user-info-block">
         <div class="userava">
-            <img src="https://github.com/mdo.png" alt="mdo" width="100" height="100" class="rounded-circle">
+            <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="100" height="100" class="rounded-circle">
         </div>
         <div class="user-info-text">
-            <a class="user-name-text">{{ item.name }} {{ item.surname }}</a><br>
-            <a>{{ item.email }}</a>
+            <a class="user-name-text">{{ user.name }} {{ user.surname }}</a><br>
+            <a class="user-date-text">Lifestyle member since {{ date }}</a>
         </div>
     </div>
     <div class="favourite-in-profile">
@@ -37,5 +40,4 @@
     </div>
   </div>
     </div>
-    {% endfor %}
 {% endblock %}

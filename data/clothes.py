@@ -1,10 +1,11 @@
 import sqlalchemy
 from flask_login import UserMixin
+from sqlalchemy_serializer import SerializerMixin
 
 from .db_session import SqlAlchemyBase
 
 
-class Clothes(SqlAlchemyBase, UserMixin):
+class Clothes(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'clothes'
 
     id = sqlalchemy.Column(sqlalchemy.Integer,

@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block user_info %}
+    <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+{% endblock %}
+
 {% block content %}
 <div class="tovar-page-div">
     <div class="tovar-image">
@@ -10,12 +14,12 @@
         <a class="cost-of-tovar">${{ tovar.cost }}</a><br>
         <button class="buying" disabled><span>Купить</span></button>
         <div class="abc">Нет в наличии</div>
-        {% if in_favourite %}
+        {% if in_favourite or not current_user.is_authenticated %}
             <a href="favourite_add_clothes_{{ tovar.id }}"><button class="tovar_button" disabled>Добавить в Избранное</button></a><br>
         {% else %}
             <a href="favourite_add_clothes_{{ tovar.id }}"><button class="tovar_button">Добавить в Избранное</button></a><br>
         {% endif %}
-        {% if in_basket %}
+        {% if in_basket or not current_user.is_authenticated %}
             <a href="basket_add_clothes_{{ tovar.id }}"><button class="tovar_button" disabled>Добавить в Корзину</button></a>
         {% else %}
             <a href="basket_add_clothes_{{ tovar.id }}"><button class="tovar_button">Добавить в Корзину</button></a>

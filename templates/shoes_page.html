@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block user_info %}
+    <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+{% endblock %}
+
 {% block content %}
 <div class="tovar">
     <div class="filter-wrapper">

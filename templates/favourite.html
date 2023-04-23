@@ -1,17 +1,31 @@
 {% extends "base.html" %}
 
+{% block user_info %}
+    <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+{% endblock %}
+
 {% block content %}
+{% if favourite %}
 <div class="album py-5 bg-body-tertiary">
       <div class="header-h1 header-h1-left">
     </div>
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
         {% for item in favourite %}
         <div class="col">
           <div class="card shadow-sm">
           <img src="{{ url_for('static', filename=item.picture) }}">
             <div class="card-body">
-              <a href="" class="card-text">{{ item.name }}</a>
+              {% if item.type == 'shoes' %}
+                  <a href="/shoes_tovar_{{ item.tovar_id }}" class="card-text">{{ item.name }}</a>
+              {% elif item.type == 'clothes' %}
+                  <a href="/clothes_tovar_{{ item.tovar_id }}" class="card-text">{{ item.name }}</a>
+              {% elif item.type == 'accessory' %}
+                  <a href="/accessory_tovar_{{ item.tovar_id }}" class="card-text">{{ item.name }}</a>
+              {% elif item.type == 'sport' %}
+                  <a href="/sport_tovar_{{ item.tovar_id }}" class="card-text">{{ item.name }}</a>
+              {% endif %}
               <div class="d-flex justify-content-between align-items-center">
                 <small class="text-body-secondary">${{ item.cost }} </small>
               </div>
@@ -23,8 +37,7 @@
                 </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+{% else %}
+  <div class="is-empty"><h1>Вкладка "Избранное" пуста</h1></div>
+{% endif %}
 {% endblock %}

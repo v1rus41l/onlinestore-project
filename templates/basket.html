@@ -1,15 +1,27 @@
 {% extends "base.html" %}
 
+{% block user_info %}
+    <img src="{{ url_for('static', filename=user.avatar) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+{% endblock %}
+
 {% block content %}
 <div class="basket-block">
     {% if basket %}
-        {% for item in basket%}
+        {% for item in basket %}
         <div class="basket-tovars">
             <div class="basket-tovar-image">
                 <img src="{{ url_for('static', filename=item.picture) }}" width="130px">
             </div>
             <div class="mini-info">
-                <a class="basket-tovar-name">{{ item.name }}</a><br>
+                {% if item.type == 'shoes' %}
+                  <a href="/shoes_tovar_{{ item.tovar_id }}" class="basket-tovar-name">{{ item.name }}</a><br>
+              {% elif item.type == 'clothes' %}
+                  <a href="/clothes_tovar_{{ item.tovar_id }}" class="basket-tovar-name">{{ item.name }}</a><br>
+              {% elif item.type == 'accessory' %}
+                  <a href="/accessory_tovar_{{ item.tovar_id }}" class="basket-tovar-name">{{ item.name }}</a><br>
+              {% elif item.type == 'sport' %}
+                  <a href="/sport_tovar_{{ item.tovar_id }}" class="basket-tovar-name">{{ item.name }}</a><br>
+              {% endif %}
                 <a class="basket-tovar-cost">${{ item.cost }}</a><br>
                 <a href="basket_delete_item_{{ item.id }}" class="remove-from-basket">Удалить</a>
             </div><br>

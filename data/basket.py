@@ -12,3 +12,6 @@ class Basket(SqlAlchemyBase, UserMixin):
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     cost = sqlalchemy.Column(sqlalchemy.Float, nullable=True)
     picture = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    type = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    by_who = sqlalchemy.Column(sqlalchemy.String)
+    tovar_id = sqlalchemy.Column(sqlalchemy.String)

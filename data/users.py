@@ -15,12 +15,13 @@ class User(SqlAlchemyBase, UserMixin):
     surname = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     email = sqlalchemy.Column(sqlalchemy.String,
                               index=True, unique=True, nullable=True)
-    avatar = sqlalchemy.Column(sqlalchemy.String, nullable=True, default='img/user-photo/user_0')
+    avatar = sqlalchemy.Column(sqlalchemy.String, nullable=True, default='/img/user-photos/user_0.png')
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                      default=datetime.datetime.now)
 
     def set_password(self, password):
+        self.password = password
         self.hashed_password = generate_password_hash(password)
 
     def check_password(self, password):
