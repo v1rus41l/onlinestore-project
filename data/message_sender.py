@@ -9,7 +9,7 @@ password = 'LifeStyle24'
 def send_email(to_addr):
     cod = random.randint(10000000, 99999999)
     text = f"Вот ваш одноразовый код подтверждения по твоему запросу: {cod}. Если у вас уже есть код или он больше не" \
-           f" нужен, то просто проигнорируйте это письмо"
+           f" нужен, то просто проигнорируйте это письмо."
     msg = MIMEMultipart()
     msg['From'] = login
     msg['To'] = to_addr
