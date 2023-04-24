@@ -70,10 +70,12 @@ def index():
     sports = db_sess.query(Sports).all()[:3]
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('index.html', title='Главная страница', sneakers=sneakers, clothes=clothes,
                                accessory=accessory, sports=
                                sports, user=user)
     else:
+        db_sess.close()
         return render_template('index.html', title='Главная страница', sneakers=sneakers, clothes=clothes,
                                accessory=accessory, sports=
                                sports)
@@ -83,18 +85,6 @@ def index():
 def main():
     db_session.global_init("db/store.db")
     app.run()
-    # user = Sneakers()
-    # user.name = "Nike Omni Multi-Court"
-    # user.description = """Что такое Омни? Это означает универсальность, инклюзивность и универсальность для занятий
-    #                       всеми видами деятельности в помещении. Прочная и легкая, эта обувь предлагает большую свободу
-    #                       движений. Выберите любимое занятие в помещении, например, волейбол, баскетбол, теннис, гандбол
-    #                       или фитнес-класс, а затем наденьте обувь!"""
-    # user.picture = "img/sports/sneakers_11.jpg"
-    # user.sex = 'kids'
-    # user.cost = 59.99
-    # db_sess = db_session.create_session()
-    # db_sess.add(user)
-    # db_sess.commit()
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -108,6 +98,7 @@ def reqister():
                                    message="Пароли не совпадают")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
+            db_sess.close()
             return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
@@ -116,12 +107,15 @@ def reqister():
         user_surname = form.surname.data
         user_password = form.password.data
         cod = send_email(user_email)
+        db_sess.close()
         return redirect('/email_confirming')
     db_sess = db_session.create_session()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('register.html', title='Регистрация', form=form, user=user)
     else:
+        db_sess.close()
         return render_template('register.html', title='Регистрация', form=form)
 
 
@@ -132,8 +126,7 @@ def email_confirming():
     db_sess = db_session.create_session()
     if form.validate_on_submit():
         if form.cod.data != cod:
-            print(form.cod.data)
-            print(cod)
+            db_sess.close()
             return render_template('confirm.html', title='Регистрация',
                                    form=form,
                                    message="Неверный код")
@@ -145,7 +138,9 @@ def email_confirming():
         user.set_password(user_password)
         db_sess.add(user)
         db_sess.commit()
+        db_sess.close()
         return redirect('/login')
+    db_sess.close()
     return render_template('confirm.html', title='Регистрация', form=form)
 
 
@@ -157,20 +152,25 @@ def login():
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
+            db_sess.close()
             return redirect("/")
         if current_user.is_authenticated:
             user = db_sess.query(User).filter(User.id == current_user.id)[0]
+            db_sess.close()
             return render_template('login.html',
                                    message="Неправильный логин или пароль",
                                    form=form, user=user)
         else:
+            db_sess.close()
             return render_template('login.html',
                                    message="Неправильный логин или пароль",
                                    form=form)
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('login.html', title='Авторизация', form=form, user=user)
     else:
+        db_sess.close()
         return render_template('login.html', title='Авторизация', form=form)
 
 
@@ -187,8 +187,10 @@ def shoes_page():
     sneakers = db_sess.query(Sneakers).all()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers, user=user)
     else:
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
@@ -199,8 +201,10 @@ def shoes_min_to_max():
     sneakers = db_sess.query(Sneakers).order_by(Sneakers.cost)
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers, user=user)
     else:
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 @app.route('/shoes_max_to_min')
@@ -209,8 +213,10 @@ def shoes_max_to_min():
     sneakers = db_sess.query(Sneakers).order_by(Sneakers.cost)[::-1]
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers, user=user)
     else:
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
@@ -220,8 +226,10 @@ def shoes_male():
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'male')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers, user=user)
     else:
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
@@ -231,8 +239,10 @@ def shoes_female():
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'female')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers, user=user)
     else:
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
@@ -242,8 +252,10 @@ def shoes_kids():
     sneakers = db_sess.query(Sneakers).filter(Sneakers.sex == 'kids')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers, user=user)
     else:
+        db_sess.close()
         return render_template('shoes_page.html', title='Кроссовки', sneakers=sneakers)
 
 
@@ -253,8 +265,10 @@ def clothes_page():
     clothes = db_sess.query(Clothes).all()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes, user=user)
     else:
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
@@ -265,8 +279,10 @@ def clothes_min_to_max():
     clothes = db_sess.query(Clothes).order_by(Clothes.cost)
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes, user=user)
     else:
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 @app.route('/clothes_max_to_min')
@@ -275,8 +291,10 @@ def clothes_max_to_min():
     clothes = db_sess.query(Clothes).order_by(Clothes.cost)[::-1]
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes, user=user)
     else:
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
@@ -286,8 +304,10 @@ def clothes_male():
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'male')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes, user=user)
     else:
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
@@ -297,8 +317,10 @@ def clothes_female():
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'female')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes, user=user)
     else:
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
@@ -308,8 +330,10 @@ def clothes_kids():
     clothes = db_sess.query(Clothes).filter(Clothes.sex == 'kids')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes, user=user)
     else:
+        db_sess.close()
         return render_template('clothes_page.html', title='Одежда', clothes=clothes)
 
 
@@ -319,8 +343,10 @@ def accessory_page():
     accessory = db_sess.query(Accessory).all()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
@@ -331,8 +357,10 @@ def accessory_max_to_min():
     accessory = db_sess.query(Accessory).order_by(Accessory.cost)[::-1]
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
@@ -342,8 +370,10 @@ def accessory_min_to_max():
     accessory = db_sess.query(Accessory).order_by(Accessory.cost)
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 @app.route('/accessory_bottle')
@@ -352,8 +382,10 @@ def accessory_bottle():
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'bottle')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 @app.route('/accessory_ball')
@@ -362,8 +394,10 @@ def accessory_ball():
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'ball')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
@@ -373,8 +407,10 @@ def accessory_headdress():
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'headdress')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
@@ -384,8 +420,10 @@ def accessory_bag():
     accessory = db_sess.query(Accessory).filter(Accessory.type == 'bag')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory, user=user)
     else:
+        db_sess.close()
         return render_template('accessory_page.html', title='Аксессуары', accessory=accessory)
 
 
@@ -395,8 +433,10 @@ def sports_page():
     sports = db_sess.query(Sports).all()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -407,8 +447,10 @@ def sports_min_to_max():
     sports = db_sess.query(Sports).order_by(Sports.cost)
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -418,8 +460,10 @@ def sports_max_to_min():
     sports = db_sess.query(Sports).order_by(Sports.cost)[::-1]
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 @app.route('/sports_soccer')
@@ -428,8 +472,10 @@ def sports_soccer():
     sports = db_sess.query(Sports).filter(Sports.type == 'football')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -440,8 +486,10 @@ def sports_running():
     sports = db_sess.query(Sports).filter(Sports.type == 'running')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -451,8 +499,10 @@ def sports_basketball():
     sports = db_sess.query(Sports).filter(Sports.type == 'basketball')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -462,8 +512,10 @@ def sports_tennis():
     sports = db_sess.query(Sports).filter(Sports.type == 'tennis')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -473,8 +525,10 @@ def sports_golf():
     sports = db_sess.query(Sports).filter(Sports.type == 'golf')
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports, user=user)
     else:
+        db_sess.close()
         return render_template('sports_page.html', title='Спорт', sports=sports)
 
 
@@ -496,10 +550,12 @@ def shoes_tovar(id):
             in_basket = False
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('tovar_shoes.html',
                                title=f'{tovar.name}', tovar=tovar, in_favourite=in_favourite,
                                in_basket=in_basket, user=user)
     else:
+        db_sess.close()
         return render_template('tovar_shoes.html',
                                title=f'{tovar.name}', tovar=tovar, in_favourite=in_favourite,
                                in_basket=in_basket)
@@ -523,6 +579,7 @@ def clothes_tovar(id):
             in_basket = False
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('tovar_clothes.html',
                                title=f'{tovar.name}',
                                tovar=tovar,
@@ -531,6 +588,7 @@ def clothes_tovar(id):
                                user=user
                                )
     else:
+        db_sess.close()
         return render_template('tovar_clothes.html',
                                title=f'{tovar.name}',
                                tovar=tovar,
@@ -557,6 +615,7 @@ def accessory_tovar(id):
             in_basket = False
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('tovar_accessory.html',
                                title=f'{tovar.name}',
                                tovar=tovar,
@@ -565,6 +624,7 @@ def accessory_tovar(id):
                                user=user
                                )
     else:
+        db_sess.close()
         return render_template('tovar_accessory.html',
                                title=f'{tovar.name}',
                                tovar=tovar,
@@ -591,6 +651,7 @@ def sport_tovar(id):
             in_basket = False
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('tovar_sport.html',
                                title=f'{tovar.name}',
                                tovar=tovar,
@@ -598,6 +659,7 @@ def sport_tovar(id):
                                in_basket=in_basket, user=user
                                )
     else:
+        db_sess.close()
         return render_template('tovar_sport.html',
                                title=f'{tovar.name}',
                                tovar=tovar,
@@ -613,11 +675,13 @@ def basket():
         basket = db_sess.query(Basket).filter(Basket.by_who == current_user.id).all()
     if current_user.is_authenticated:
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
+        db_sess.close()
         return render_template('basket.html',
                                title='Корзина',
                                basket=basket,
                                user=user)
     else:
+        db_sess.close()
         return render_template('basket.html',
                                title='Корзина',
                                basket=basket)
@@ -639,6 +703,7 @@ def add_basket_shoes(id):
     basket.tovar_id = tovar.id
     db_sess.add(basket)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/shoes_tovar_{tovar.id}')
 
 
@@ -658,6 +723,7 @@ def add_basket_clothes(id):
     basket.tovar_id = tovar.id
     db_sess.add(basket)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/clothes_tovar_{tovar.id}')
 
 
@@ -677,6 +743,7 @@ def add_basket_accessory(id):
     basket.by_who = current_user.id
     db_sess.add(basket)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/accessory_tovar_{tovar.id}')
 
 
@@ -696,6 +763,7 @@ def add_basket_sport(id):
     basket.tovar_id = tovar.id
     db_sess.add(basket)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/sport_tovar_{tovar.id}')
 
 
@@ -706,6 +774,7 @@ def delete_basket_sport(id):
     basket = db_sess.query(Basket).filter(Basket.id == id).first()
     db_sess.delete(basket)
     db_sess.commit()
+    db_sess.close()
     return redirect('/basket')
 
 
@@ -715,6 +784,7 @@ def favourite():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
         favourite = db_sess.query(Favourite).filter(Favourite.by_who == current_user.id).all()
+        db_sess.close()
     if current_user.is_authenticated:
         return render_template('favourite.html',
                                title='Избранное',
@@ -743,6 +813,7 @@ def add_favourite_shoes(id):
     favourite.tovar_id = tovar.id
     db_sess.add(favourite)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/shoes_tovar_{tovar.id}')
 
 
@@ -762,6 +833,7 @@ def add_favourite_clothes(id):
     favourite.by_who = current_user.id
     db_sess.add(favourite)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/clothes_tovar_{tovar.id}')
 
 
@@ -781,6 +853,7 @@ def add_favourite_accessory(id):
     favourite.tovar_id = tovar.id
     db_sess.add(favourite)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/accessory_tovar_{tovar.id}')
 
 
@@ -800,6 +873,7 @@ def add_favourite_sport(id):
     favourite.type = 'sport'
     db_sess.add(favourite)
     db_sess.commit()
+    db_sess.close()
     return redirect(f'/sport_tovar_{tovar.id}')
 
 
@@ -810,6 +884,7 @@ def delete_fav_sport(id):
     favourite = db_sess.query(Favourite).filter(Favourite.id == id).first()
     db_sess.delete(favourite)
     db_sess.commit()
+    db_sess.close()
     return redirect('/favourite')
 
 
@@ -820,6 +895,7 @@ def profile():
         user = db_sess.query(User).filter(User.id == current_user.id)[0]
         favourite = list(db_sess.query(Favourite).filter(Favourite.by_who == current_user.id))[-3:][::-1]
         date = user.created_date.strftime("%B %Y")
+        db_sess.close()
     return render_template('profile.html',
                            title='Профиль',
                            user=user,
@@ -830,7 +906,7 @@ def profile():
 def settings():
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.id == current_user.id)[0]
-
+    db_sess.close()
     return render_template('settings.html',
                            title='Настройки профиля', user=user
                            )
@@ -849,6 +925,7 @@ def ava_form():
             file.write(photo.read())
             user.avatar = f'/img/user-photos/user_{user.id}.png'
             db_sess.commit()
+    db_sess.close()
     return redirect('/settings')
 
 
@@ -859,6 +936,7 @@ def info_form():
     user.name = request.form['name']
     user.surname = request.form['surname']
     db_sess.commit()
+    db_sess.close()
     return redirect('/settings')
 
 
@@ -869,6 +947,7 @@ def change_pass():
     print(request.form['old_pass'])
     if user.check_password(request.form['old_pass']):
         if not request.form['new_pass'] or not request.form['repeat_pass']:
+            db_sess.close()
             return render_template('settings.html',
                                    title='Настройки профиля', user=user,
                                    message='Поля должны быть заполнены'
@@ -876,13 +955,16 @@ def change_pass():
         elif request.form['new_pass'] == request.form['repeat_pass']:
             user.set_password(request.form['new_pass'])
             db_sess.commit()
+            db_sess.close()
             return redirect('/settings')
         else:
+            db_sess.close()
             return render_template('settings.html',
                                    title='Настройки профиля', user=user,
                                    message='Пароли не совпадают'
                                    )
     else:
+        db_sess.close()
         return render_template('settings.html',
                                title='Настройки профиля', user=user,
                                message='Неверный пароль'
